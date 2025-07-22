@@ -79,6 +79,12 @@ export default function DashboardPage() {
     return tasks
   }
   
+  // Fonction pour obtenir le nom d'une équipe par son ID
+  const getTeamNameById = (teamId: string): string => {
+    const team = teams.find((t: Team) => t.id.toString() === teamId)
+    return team ? team.name : `Équipe ${teamId}`
+  }
+  
   // Vérification de l'authentification
   useEffect(() => {
     const checkAuth = () => {
@@ -382,8 +388,8 @@ export default function DashboardPage() {
                                 </p>
                                 <div className="mt-2 flex items-center text-sm text-gray-500 dark:text-gray-400">
                                   <span>Progrès: {project.progress}%</span>
-                                  {project.assignedTeamName && project.assignedTeamName !== 'Aucune équipe' && (
-                                    <span className="ml-4">👥 {project.assignedTeamName}</span>
+                                  {project.assignedTeam && project.assignedTeam !== 'Aucune équipe' && (
+                                    <span className="ml-4">👥 {getTeamNameById(project.assignedTeam)}</span>
                                   )}
                                 </div>
                               </div>
