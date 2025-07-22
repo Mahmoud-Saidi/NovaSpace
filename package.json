@@ -5,8 +5,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "NODE_OPTIONS='--legacy-openssl-provider' next build",
-    "start": "NODE_OPTIONS='--legacy-openssl-provider' next start",
+    "build": "next build",
+    "start": "next start",
+    "build:local": "NODE_OPTIONS='--legacy-openssl-provider' next build",
+    "start:local": "NODE_OPTIONS='--legacy-openssl-provider' next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "db:generate": "prisma generate",
