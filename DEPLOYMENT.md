@@ -1,0 +1,152 @@
+# 🚀 Guide de Déploiement Vercel - CollabSpace
+
+## Prérequis
+- Compte Vercel (gratuit)
+- Repository GitHub/GitLab/Bitbucket
+- Base de données PostgreSQL (recommandé: Neon, Supabase, ou Railway)
+
+## 📋 Étapes de déploiement
+
+### 1. Préparation du code
+```bash
+# Tester le build en local
+npm run build
+
+# Vérifier TypeScript
+npm run type-check
+```
+
+### 2. Variables d'environnement Vercel
+
+Dans le dashboard Vercel, configurez ces variables :
+
+```env
+# Base de données (OBLIGATOIRE)
+DATABASE_URL=postgresql://username:password@host:5432/database
+
+# Authentication (OBLIGATOIRE)
+NEXTAUTH_SECRET=your-secret-key-32-characters-min
+NEXTAUTH_URL=https://your-app.vercel.app
+
+# OAuth (OPTIONNEL)
+GITHUB_CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+# Email (OPTIONNEL)
+EMAIL_SERVER_HOST=smtp.gmail.com
+EMAIL_SERVER_PORT=587
+EMAIL_SERVER_USER=your-email@gmail.com
+EMAIL_SERVER_PASSWORD=your-app-password
+EMAIL_FROM=noreply@your-domain.com
+
+# Analytics (OPTIONNEL)
+NEXT_PUBLIC_GOOGLE_ANALYTICS=G-XXXXXXXXXX
+```
+
+### 3. Déploiement automatique
+
+1. **Connecter le repository** :
+   - Allez sur [vercel.com](https://vercel.com)
+   - Cliquez "New Project"
+   - Importez votre repository GitHub
+
+2. **Configuration automatique** :
+   - Vercel détectera automatiquement Next.js
+   - Framework Preset: `Next.js`
+   - Build Command: `npm run build`
+   - Output Directory: `.next`
+
+3. **Variables d'environnement** :
+   - Ajoutez toutes les variables listées ci-dessus
+   - Attention à `DATABASE_URL` et `NEXTAUTH_SECRET`
+
+4. **Déployer** :
+   - Cliquez "Deploy"
+   - Le déploiement prend 2-3 minutes
+
+### 4. Configuration base de données
+
+Si vous n'avez pas de base de données, utilisez **Neon** (gratuit) :
+
+1. Créez un compte sur [neon.tech](https://neon.tech)
+2. Créez une nouvelle base de données
+3. Copiez l'URL de connection
+4. Ajoutez-la comme `DATABASE_URL` dans Vercel
+
+### 5. Post-déploiement
+
+Une fois déployé :
+```bash
+# Générer le client Prisma (si nécessaire)
+npx prisma generate
+
+# Pousser le schéma vers la base
+npx prisma db push
+```
+
+## 🔧 Configuration avancée
+
+### Domaine personnalisé
+1. Dans Vercel > Settings > Domains
+2. Ajoutez votre domaine
+3. Configurez les enregistrements DNS
+
+### Monitoring
+- Vercel Analytics (gratuit)
+- Vercel Speed Insights
+- Error tracking automatique
+
+## 🚨 Points d'attention
+
+### Données localStorage
+⚠️ **IMPORTANT** : Votre application utilise actuellement `localStorage` pour les données.
+Pour la production, considérez :
+
+1. **Migration vers base de données** :
+   - Équipes → Table `teams`
+   - Projets → Table `projects` 
+   - Tâches → Table `tasks`
+
+2. **API Routes** :
+   - Créer des endpoints `/api/teams`
+   - Créer des endpoints `/api/projects`
+   - Créer des endpoints `/api/tasks`
+
+### Performance
+- Les images sont optimisées automatiquement
+- Le code est minifié
+- Cache CDN global
+
+## 🎯 Checklist de déploiement
+
+- [ ] Code testé localement (`npm run build`)
+- [ ] Variables d'environnement configurées
+- [ ] Base de données PostgreSQL ready
+- [ ] Repository connecté à Vercel
+- [ ] Domaine configuré (optionnel)
+- [ ] Monitoring activé
+
+## 🆘 Dépannage
+
+### Erreur de build
+```bash
+# Localement, tester :
+npm install
+npm run build
+```
+
+### Erreur de base de données
+```bash
+# Vérifier la connection
+npx prisma db push
+```
+
+### Variables d'environnement manquantes
+- Vérifiez dans Vercel > Settings > Environment Variables
+- Redéployez après modification
+
+## 📞 Support
+- Documentation Vercel : [vercel.com/docs](https://vercel.com/docs)
+- Support : [vercel.com/support](https://vercel.com/support)

@@ -1,0 +1,72 @@
+
+
+services:
+  # Application Next.js
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/collabspace
+      - REDIS_URL=redis://redis:6379
+      - NEXTAUTH_SECRET=your-secret-key-change-in-production
+      - NEXTAUTH_URL=http://localhost:3000
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - collabspace-network
+
+  # Base de données PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: collabspace
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - collabspace-network
+
+  # Redis pour cache et sessions
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - collabspace-network
+
+  # pgAdmin pour gestion DB (optionnel)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@collabspace.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - collabspace-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  collabspace-network:
+    driver: bridge

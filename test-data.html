@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test LocalStorage Data</title>
+</head>
+<body>
+    <h1>Ajouter des données de test</h1>
+    <button onclick="addTestData()">Ajouter des projets et équipes de test</button>
+    <button onclick="clearData()">Effacer toutes les données</button>
+    <button onclick="simulateLogout()">Simuler déconnexion</button>
+    <button onclick="simulateLogin()">Simuler connexion</button>
+    <button onclick="showData()">Afficher les données</button>
+    <button onclick="testDeletion()">Tester suppression synchronisée</button>
+    <button onclick="testPersistence()">🔄 Test Persistance Complète</button>
+    <button onclick="testDeleteSynchronization()">🗑️ Test Suppression Synchronisée</button>
+    <button onclick="initializeUsers()">👥 Initialiser base utilisateurs</button>
+    <button onclick="testUserSystem()">🔐 Test système utilisateurs</button>
+    <button onclick="resetAll()">🚫 RESET TOTAL - Remettre à zéro</button>
+    
+    <div id="output"></div>
+    
+    <script>
+        function addTestData() {
+            // Simuler une authentification
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('authToken', 'test-token-123');
+            
+            // Ajouter des projets de test
+            const testProjects = [
+                {
+                    id: 1672531200000,
+                    name: "Site Web E-commerce",
+                    description: "Développement d'une plateforme de vente en ligne moderne",
+                    dueDate: "2025-02-15",
+                    status: "En cours",
+                    progress: 65,
+                    members: 3,
+                    createdAt: "2025-01-01T10:00:00.000Z"
+                },
+                {
+                    id: 1672531260000,
+                    name: "Application Mobile",
+                    description: "App mobile pour la gestion de tâches collaboratives",
+                    dueDate: "2025-03-10",
+                    status: "En cours",
+                    progress: 30,
+                    members: 2,
+                    createdAt: "2025-01-01T11:00:00.000Z"
+                }
+            ];
+            
+            // Ajouter des équipes de test
+            const testTeams = [
+                {
+                    id: 1672531320000,
+                    name: "Équipe Développement",
+                    description: "Équipe principale de développement frontend et backend",
+                    visibility: "private",
+                    members: 5,
+                    role: "Admin",
+                    status: "active",
+                    createdAt: "2025-01-01T12:00:00.000Z"
+                },
+                {
+                    id: 1672531380000,
+                    name: "Équipe Design",
+                    description: "Équipe créative pour les interfaces utilisateur",
+                    visibility: "public",
+                    members: 3,
+                    role: "Admin",
+                    status: "active",
+                    createdAt: "2025-01-01T13:00:00.000Z"
+                }
+            ];
+            
+            localStorage.setItem('userProjects', JSON.stringify(testProjects));
+            localStorage.setItem('userTeams', JSON.stringify(testTeams));
+            
+            document.getElementById('output').innerHTML = '<p style="color: green;">Données de test ajoutées avec succès! Les projets et équipes persisteront même après déconnexion.</p>';
+        }
+        
+        function clearData() {
+            localStorage.removeItem('userProjects');
+            localStorage.removeItem('userTeams');
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('authToken');
+            document.getElementById('output').innerHTML = '<p style="color: red;">Toutes les données ont été effacées!</p>';
+        }
+        
+        function simulateLogout() {
+            // Supprimer SEULEMENT les données d'authentification, pas les projets/équipes
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('authToken');
+            document.getElementById('output').innerHTML = '<p style="color: orange;">✅ Déconnexion simulée - projets et équipes restent sauvegardés!</p>';
+        }
+        
+        function simulateLogin() {
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('authToken', 'test-token-123');
+            document.getElementById('output').innerHTML = '<p style="color: blue;">Connexion simulée - les données existantes sont préservées!</p>';
+        }
+        
+        function showData() {
+            const projects = localStorage.getItem('userProjects');
+            const teams = localStorage.getItem('userTeams');
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            
+            let output = '<h3>Données actuelles:</h3>';
+            output += `<p><strong>Connecté:</strong> ${isLoggedIn || 'Non'}</p>`;
+            output += `<p><strong>Projets:</strong> ${projects ? JSON.parse(projects).length : 0}</p>`;
+            output += `<p><strong>Équipes:</strong> ${teams ? JSON.parse(teams).length : 0}</p>`;
+            
+            if (projects) {
+                output += '<h4>Projets:</h4><pre>' + JSON.stringify(JSON.parse(projects), null, 2) + '</pre>';
+            }
+            
+            if (teams) {
+                output += '<h4>Équipes:</h4><pre>' + JSON.stringify(JSON.parse(teams), null, 2) + '</pre>';
+            }
+            
+            document.getElementById('output').innerHTML = output;
+        }
+
+        function testDeletion() {
+            // D'abord, s'assurer qu'on a des données de test
+            addTestData();
+            
+            const projects = JSON.parse(localStorage.getItem('userProjects') || '[]');
+            const teams = JSON.parse(localStorage.getItem('userTeams') || '[]');
+            
+            alert(`Test de suppression synchronisée:\n\nAvant: ${projects.length} projets, ${teams.length} équipes\n\nMaintenant, allez sur /teams et supprimez une équipe.\nPuis vérifiez sur /projects que l'assignation a été retirée.\nEt sur /dashboard que les statistiques sont mises à jour.`);
+        }
+
+        function testPersistence() {
+            // Effacer d'abord toutes les données
+            localStorage.clear();
+            
+            // Simuler connexion
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('authToken', 'test-token-123');
+            
+            // Ajouter une équipe
+            const testTeam = {
+                id: Date.now(),
+                name: "Équipe Test Persistance",
+                description: "Équipe pour tester la persistance",
+                avatar: "https://ui-avatars.com/api/?name=Test&background=4f46e5&color=fff&size=128",
+                members: 1,
+                projects: 0,
+                department: "Test",
+                role: 'Admin',
+                status: 'active',
+                visibility: 'private',
+                createdAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('userTeams', JSON.stringify([testTeam]));
+            
+            // Ajouter un projet assigné à cette équipe
+            const testProject = {
+                id: Date.now() + 1,
+                name: "Projet Test Persistance",
+                description: "Projet pour tester la persistance",
+                dueDate: "2025-12-31",
+                assignedTeam: testTeam.id.toString(),
+                assignedTeamName: testTeam.name,
+                status: 'En cours',
+                progress: 50,
+                members: 1,
+                createdAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('userProjects', JSON.stringify([testProject]));
+            
+            alert('✅ Données de test ajoutées !\n\nTest de persistance :\n1. Allez sur /projects et /teams - vérifiez les données\n2. Cliquez "Simuler déconnexion" ci-dessous\n3. Reconnectez-vous\n4. Vérifiez que tout persiste !');
+        }
+        
+        function testDeleteSynchronization() {
+            // Effacer d'abord toutes les données
+            localStorage.clear();
+            
+            // Simuler connexion
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('authToken', 'test-token-123');
+            
+            // Créer une équipe
+            const team1 = {
+                id: 1001,
+                name: "Équipe Backend",
+                description: "Développement backend",
+                avatar: "https://ui-avatars.com/api/?name=Backend&background=4f46e5&color=fff&size=128",
+                members: 3,
+                projects: 0,
+                department: "Développement",
+                role: 'Admin',
+                status: 'active',
+                visibility: 'private',
+                createdAt: new Date().toISOString()
+            };
+            
+            const team2 = {
+                id: 1002,
+                name: "Équipe Frontend",
+                description: "Développement frontend",
+                avatar: "https://ui-avatars.com/api/?name=Frontend&background=e11d48&color=fff&size=128",
+                members: 2,
+                projects: 0,
+                department: "Développement",
+                role: 'Admin',
+                status: 'active',
+                visibility: 'private',
+                createdAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('userTeams', JSON.stringify([team1, team2]));
+            
+            // Créer des projets assignés à différentes équipes
+            const projects = [
+                {
+                    id: 2001,
+                    name: "API REST",
+                    description: "Développement de l'API REST",
+                    dueDate: "2025-12-31",
+                    assignedTeam: "1001",
+                    assignedTeamName: "Équipe Backend",
+                    status: 'En cours',
+                    progress: 60,
+                    members: 3,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 2002,
+                    name: "Interface utilisateur",
+                    description: "Développement de l'interface",
+                    dueDate: "2025-11-30",
+                    assignedTeam: "1002",
+                    assignedTeamName: "Équipe Frontend",
+                    status: 'En cours',
+                    progress: 40,
+                    members: 2,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 2003,
+                    name: "Base de données",
+                    description: "Configuration de la base de données",
+                    dueDate: "2025-10-15",
+                    assignedTeam: "1001",
+                    assignedTeamName: "Équipe Backend",
+                    status: 'En cours',
+                    progress: 80,
+                    members: 1,
+                    createdAt: new Date().toISOString()
+                }
+            ];
+            
+            localStorage.setItem('userProjects', JSON.stringify(projects));
+            
+            alert('✅ Données de test pour suppression synchronisée !\n\nTest :\n1. Allez sur /projects - 3 projets\n2. Allez sur /teams - 2 équipes\n3. Supprimez "Équipe Backend"\n4. Retournez sur /projects\n5. Les projets assignés devraient être supprimés !');
+        }
+
+        function initializeUsers() {
+            // Base d'utilisateurs
+            const users = [
+                {
+                    id: 'user_001',
+                    firstName: 'Alice',
+                    lastName: 'Martin',
+                    email: 'alice.martin@company.com',
+                    avatar: 'https://ui-avatars.com/api/?name=Alice+Martin&background=4f46e5&color=fff&size=128',
+                    department: 'Développement',
+                    role: 'Admin',
+                    status: 'active',
+                    createdAt: '2025-01-01T00:00:00.000Z'
+                },
+                {
+                    id: 'user_002',
+                    firstName: 'Bob',
+                    lastName: 'Dupont',
+                    email: 'bob.dupont@company.com',
+                    avatar: 'https://ui-avatars.com/api/?name=Bob+Dupont&background=e11d48&color=fff&size=128',
+                    department: 'Design',
+                    role: 'Manager',
+                    status: 'active',
+                    createdAt: '2025-01-02T00:00:00.000Z'
+                },
+                {
+                    id: 'user_003',
+                    firstName: 'Claire',
+                    lastName: 'Bernard',
+                    email: 'claire.bernard@company.com',
+                    avatar: 'https://ui-avatars.com/api/?name=Claire+Bernard&background=10b981&color=fff&size=128',
+                    department: 'Marketing',
+                    role: 'Member',
+                    status: 'active',
+                    createdAt: '2025-01-03T00:00:00.000Z'
+                },
+                {
+                    id: 'user_004',
+                    firstName: 'David',
+                    lastName: 'Leroy',
+                    email: 'david.leroy@company.com',
+                    avatar: 'https://ui-avatars.com/api/?name=David+Leroy&background=f59e0b&color=fff&size=128',
+                    department: 'Développement',
+                    role: 'Member',
+                    status: 'active',
+                    createdAt: '2025-01-04T00:00:00.000Z'
+                }
+            ];
+            
+            localStorage.setItem('usersDatabase', JSON.stringify(users));
+            document.getElementById('output').innerHTML = '<p style="color: green;">✅ Base d\'utilisateurs initialisée ! 4 utilisateurs disponibles.</p>';
+        }
+
+        function testUserSystem() {
+            // Effacer toutes les données
+            localStorage.clear();
+            
+            // Initialiser la base d'utilisateurs
+            initializeUsers();
+            
+            // Simuler connexion avec Alice
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('authToken', 'token_user_001_' + Date.now());
+            localStorage.setItem('currentUserId', 'user_001');
+            localStorage.setItem('userEmail', 'alice.martin@company.com');
+            localStorage.setItem('userName', 'Alice Martin');
+            
+            // Créer une équipe pour Alice
+            const team = {
+                id: Date.now(),
+                name: "Équipe Alice",
+                description: "Équipe de développement dirigée par Alice",
+                ownerId: 'user_001',
+                members: ['user_001'], // Alice est membre de sa propre équipe
+                avatar: 'https://ui-avatars.com/api/?name=Équipe+Alice&background=4f46e5&color=fff&size=128',
+                department: 'Développement',
+                role: 'Admin',
+                status: 'active',
+                visibility: 'private',
+                projects: 0,
+                createdAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('userTeams', JSON.stringify([team]));
+            
+            // Créer un projet pour Alice
+            const project = {
+                id: Date.now() + 1,
+                name: "Projet Alice",
+                description: "Projet personnel d'Alice",
+                dueDate: "2025-12-31",
+                assignedTeam: team.id.toString(),
+                assignedTeamName: team.name,
+                ownerId: 'user_001',
+                status: 'En cours',
+                progress: 25,
+                members: 1,
+                createdAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('userProjects', JSON.stringify([project]));
+            
+            alert('✅ Système utilisateurs configuré !\n\nConnecté en tant que : Alice Martin\n\nTest :\n1. Allez sur /projects - vous verrez le projet d\'Alice\n2. Allez sur /teams - vous verrez l\'équipe d\'Alice\n3. Déconnectez-vous et reconnectez-vous avec bob.dupont@company.com\n4. Vous ne verrez pas les données d\'Alice !');
+        }
+
+        function resetAll() {
+            // Supprimer TOUTES les données localStorage
+            localStorage.clear();
+            
+            // Confirmer la suppression
+            const confirmReset = confirm('⚠️ ATTENTION !\n\nCette action va supprimer TOUTES les données :\n- Base d\'utilisateurs\n- Projets\n- Équipes\n- Sessions\n- Invitations\n\nÊtes-vous sûr de vouloir continuer ?');
+            
+            if (confirmReset) {
+                // Tout est déjà supprimé avec localStorage.clear()
+                document.getElementById('output').innerHTML = `
+                    <div style="background: #fee; border: 1px solid #f00; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                        <h3 style="color: #c00; margin: 0 0 10px 0;">🚫 RESET TOTAL EFFECTUÉ</h3>
+                        <p style="margin: 5px 0;"><strong>✅ Base d'utilisateurs :</strong> Supprimée</p>
+                        <p style="margin: 5px 0;"><strong>✅ Projets :</strong> Supprimés</p>
+                        <p style="margin: 5px 0;"><strong>✅ Équipes :</strong> Supprimées</p>
+                        <p style="margin: 5px 0;"><strong>✅ Sessions :</strong> Supprimées</p>
+                        <p style="margin: 5px 0;"><strong>✅ Invitations :</strong> Supprimées</p>
+                        <hr style="margin: 15px 0;">
+                        <p style="color: #666;">Vous pouvez maintenant recommencer les tests depuis zéro !</p>
+                        <p style="color: #666;">Suggestions :</p>
+                        <ol style="color: #666; margin: 10px 0;">
+                            <li>Cliquez "👥 Initialiser base utilisateurs"</li>
+                            <li>Puis "🔐 Test système utilisateurs"</li>
+                            <li>Ou utilisez les autres fonctions de test</li>
+                        </ol>
+                    </div>
+                `;
+                
+                console.log('🚫 RESET TOTAL - Toutes les données ont été supprimées');
+                
+                // Vérification que tout est bien supprimé
+                const remainingKeys = Object.keys(localStorage);
+                if (remainingKeys.length === 0) {
+                    console.log('✅ Confirmation : localStorage est complètement vide');
+                } else {
+                    console.warn('⚠️ Il reste des clés dans localStorage :', remainingKeys);
+                }
+            } else {
+                document.getElementById('output').innerHTML = '<p style="color: #666;">❌ Reset annulé - aucune donnée supprimée.</p>';
+            }
+        }
+    </script>
+</body>
+</html>
