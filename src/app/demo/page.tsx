@@ -3,10 +3,17 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
-export default function DemoPage() {
-  const [activeDemo, setActiveDemo] = useState('dashboard')
+type DemoType = 'dashboard' | 'projects' | 'teams' | 'analytics'
 
-  const demos = {
+export default function DemoPage() {
+  const [activeDemo, setActiveDemo] = useState<DemoType>('dashboard')
+
+  const demos: Record<DemoType, {
+    title: string
+    description: string
+    image: string
+    features: string[]
+  }> = {
     dashboard: {
       title: 'Dashboard principal',
       description: 'Vue d\'ensemble de tous vos projets et métriques',
@@ -50,7 +57,7 @@ export default function DemoPage() {
           <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Choisissez une fonctionnalité à explorer</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              {Object.entries(demos).map(([key, demo]) => (
+              {(Object.entries(demos) as [DemoType, typeof demos[DemoType]][]).map(([key, demo]) => (
                 <button
                   key={key}
                   onClick={() => setActiveDemo(key)}

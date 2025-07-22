@@ -4,11 +4,12 @@
 
 ✅ **READY FOR PRODUCTION** - L'application se compile avec succès sur Vercel !
 
-**Dernière mise à jour** : 22 Juillet 2025 - 23:30
+**Dernière mise à jour** : 22 Juillet 2025 - 23:40
 - ✅ Build réussi sur Vercel
 - ✅ TypeScript configuré correctement
-- ✅ Erreurs de typage corrigées
+- ✅ Erreurs de typage corrigées (Team interface, assignedTeamName)
 - ✅ Configuration Vercel optimisée
+- ✅ Propriétés inexistantes supprimées
 
 ## Prérequis
 - Compte Vercel (gratuit)
@@ -207,6 +208,28 @@ npx prisma db push
 ```bash
 # Mettre à jour Next.js si nécessaire
 npm install next@latest
+```
+
+### ❌ TypeScript Error: Property 'X' does not exist on type 'Y'
+**Solution** : Vérifiez les interfaces TypeScript
+```typescript
+// Assurez-vous que les propriétés existent dans l'interface
+interface Project {
+  assignedTeam: string    // ✅ Existe
+  // assignedTeamName: string  // ❌ N'existe pas
+}
+```
+
+### ❌ JSX tag requires the module path 'react/jsx-runtime'
+**Solution** : Vérifiez la configuration TypeScript
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "jsx": "preserve",
+    "jsxImportSource": "react"
+  }
+}
 ```
 
 ## 📞 Support
