@@ -88,6 +88,9 @@ export async function createUser(userData: CreateUserData): Promise<User> {
   return newUser
 }
 
+// Alias pour addUser (rétrocompatibilité)
+export const addUser = createUser
+
 // Fonction pour obtenir un utilisateur par email
 export function getUserByEmail(email: string): User | undefined {
   if (typeof window === 'undefined') return undefined

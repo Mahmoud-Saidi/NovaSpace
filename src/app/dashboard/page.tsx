@@ -20,6 +20,15 @@ interface Task {
   completedAt?: string
 }
 
+interface Team {
+  id: number
+  name: string
+  department: string
+  members: string[]
+  ownerId: string
+  assignedUsers?: string[]
+}
+
 interface Project {
   id: number
   name: string
@@ -56,7 +65,7 @@ export default function DashboardPage() {
   const [currentUserId, setCurrentUserId] = useState<string>('') // ID de l'utilisateur connecté
   const [activeTab, setActiveTab] = useState('overview')
   const [projects, setProjects] = useState<Project[]>([])
-  const [teams, setTeams] = useState([])
+  const [teams, setTeams] = useState<Team[]>([])
   const [allTasks, setAllTasks] = useState<Task[]>([]) // Toutes les tâches extraites des projets
   
   // Fonction pour extraire toutes les tâches de tous les projets
@@ -98,9 +107,9 @@ export default function DashboardPage() {
       // Charger les équipes filtrées pour l'utilisateur
       const savedTeams = localStorage.getItem('userTeams')
       if (savedTeams) {
-        const allTeams = JSON.parse(savedTeams)
+        const allTeams = JSON.parse(savedTeams) as Team[]
         const currentUser = localStorage.getItem('userName') || ''
-        const userTeams = allTeams.filter(team => 
+        const userTeams = allTeams.filter((team: Team) => 
           team.ownerId === currentUserId || 
           (team.assignedUsers && team.assignedUsers.includes(currentUserId)) ||
           (team.members && Array.isArray(team.members) && team.members.includes(currentUser))
@@ -115,14 +124,14 @@ export default function DashboardPage() {
     if (isAuthenticated && currentUserId && teams.length >= 0) {
       const savedProjects = localStorage.getItem('userProjects')
       if (savedProjects) {
-        const allProjects = JSON.parse(savedProjects)
+        const allProjects = JSON.parse(savedProjects) as Project[]
         const currentUser = localStorage.getItem('userName') || ''
         
         // Obtenir les IDs des équipes auxquelles l'utilisateur appartient
-        const userTeamIds = teams.map(team => team.id.toString())
+        const userTeamIds = teams.map((team: Team) => team.id.toString())
         
         // Filtrer les projets: ceux créés par l'utilisateur, où l'utilisateur est assigné, ou assignés à ses équipes
-        const userProjects = allProjects.filter(project => 
+        const userProjects = allProjects.filter((project: Project) => 
           project.ownerId === currentUserId || 
           (project.assignedUsers && project.assignedUsers.includes(currentUserId)) ||
           (project.assignedTeam && userTeamIds.includes(project.assignedTeam))
@@ -142,11 +151,11 @@ export default function DashboardPage() {
       if (currentUserId) {
         // Charger les équipes d'abord
         const savedTeams = localStorage.getItem('userTeams')
-        let currentTeams = []
+        let currentTeams: Team[] = []
         if (savedTeams) {
-          const allTeams = JSON.parse(savedTeams)
+          const allTeams = JSON.parse(savedTeams) as Team[]
           const currentUser = localStorage.getItem('userName') || ''
-          currentTeams = allTeams.filter(team => 
+          currentTeams = allTeams.filter((team: Team) => 
             team.ownerId === currentUserId || 
             (team.assignedUsers && team.assignedUsers.includes(currentUserId)) ||
             (team.members && Array.isArray(team.members) && team.members.includes(currentUser))
@@ -157,10 +166,10 @@ export default function DashboardPage() {
         // Charger les projets filtrés pour l'utilisateur (avec équipes)
         const savedProjects = localStorage.getItem('userProjects')
         if (savedProjects) {
-          const allProjects = JSON.parse(savedProjects)
-          const userTeamIds = currentTeams.map(team => team.id.toString())
+          const allProjects = JSON.parse(savedProjects) as Project[]
+          const userTeamIds = currentTeams.map((team: Team) => team.id.toString())
           
-          const userProjects = allProjects.filter(project => 
+          const userProjects = allProjects.filter((project: Project) => 
             project.ownerId === currentUserId || 
             (project.assignedUsers && project.assignedUsers.includes(currentUserId)) ||
             (project.assignedTeam && userTeamIds.includes(project.assignedTeam))
