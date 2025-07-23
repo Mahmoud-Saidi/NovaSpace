@@ -24,6 +24,7 @@
     "vercel:deploy": "vercel --prod",
     "vercel:preview": "vercel",
     "postbuild": "prisma generate",
+    "postinstall": "prisma generate",
     "start:3999": "./start-3999.sh"
   },
   "dependencies": {
