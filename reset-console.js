@@ -9,7 +9,7 @@ localStorage.clear();
 console.log('✅ RESET COMPLET TERMINÉ');
 console.log('');
 console.log('📝 Instructions pour continuer:');
-console.log('1. Allez sur http://localhost:3000/test');
+console.log('1. Allez sur http://localhost:3999/test');
 console.log('2. Cliquez "🚀 Setup Test Complet"');
 console.log('3. Testez les fonctionnalités');
 console.log('');

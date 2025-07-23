@@ -71,6 +71,7 @@ cd collabspace
 ```bash
 cp .env.example .env.local
 # Éditer .env.local avec vos valeurs
+# Note: L'application tourne maintenant sur le port 3999
 ```
 
 3. **Lancer avec Docker Compose**
@@ -83,7 +84,7 @@ docker-compose up --build
 ```
 
 4. **Accéder à l'application**
-- Application: http://localhost:3000
+- Application: http://localhost:3999
 - pgAdmin: http://localhost:5050
 - Redis: localhost:6379
 
@@ -107,8 +108,14 @@ npx prisma db push
 
 4. **Lancer en développement**
 ```bash
-npm run dev
+npm run dev          # Démarre sur le port 3999
+# ou
+npm run start:3999   # Script avec vérification du port
+# ou
+./start-3999.sh      # Script interactif
 ```
+
+**🌐 L'application sera accessible sur: http://localhost:3999**
 
 ## 📁 Structure du projet
 

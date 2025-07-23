@@ -4,11 +4,11 @@
   "description": "Modern collaborative project management platform",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3999",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3999",
     "build:local": "NODE_OPTIONS='--legacy-openssl-provider' next build",
-    "start:local": "NODE_OPTIONS='--legacy-openssl-provider' next start",
+    "start:local": "NODE_OPTIONS='--legacy-openssl-provider' next start -p 3999",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "db:generate": "prisma generate",
@@ -23,7 +23,8 @@
     "vercel:dev": "vercel dev",
     "vercel:deploy": "vercel --prod",
     "vercel:preview": "vercel",
-    "postbuild": "prisma generate"
+    "postbuild": "prisma generate",
+    "start:3999": "./start-3999.sh"
   },
   "dependencies": {
     "next": "14.1.0",

@@ -19,7 +19,7 @@ sleep 10
 
 # Vérifier que l'application est accessible
 echo -e "${GREEN}✓ Environnement démarré avec succès!${NC}"
-echo -e "${BLUE}Application accessible sur: ${GREEN}http://localhost:3000${NC}"
+echo -e "${BLUE}Application accessible sur: ${GREEN}http://localhost:3999${NC}"
 echo -e "${BLUE}PgAdmin accessible sur: ${GREEN}http://localhost:5050${NC}"
 echo -e "${BLUE}  - Email: ${GREEN}admin@collabspace.com${NC}"
 echo -e "${BLUE}  - Mot de passe: ${GREEN}admin${NC}"

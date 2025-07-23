@@ -41,9 +41,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
-EXPOSE 3000
+EXPOSE 3999
 
-ENV PORT=3000
+ENV PORT=3999
 ENV HOSTNAME="0.0.0.0"
 
 CMD ["node", "server.js"]
@@ -101,7 +101,7 @@ COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Exposer le port
-EXPOSE 3000
+EXPOSE 3999
 
 # Utiliser le script d'entrée pour initialiser et démarrer l'application
 ENTRYPOINT ["docker-entrypoint.sh"]
