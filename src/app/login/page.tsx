@@ -10,7 +10,7 @@ export default function LoginPage() {
     email: '',
     password: ''
   })
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState<Record<string, string>>({})
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
@@ -20,7 +20,7 @@ export default function LoginPage() {
     setErrors({})
 
     // Validation simple
-    const newErrors: any = {}
+    const newErrors: Record<string, string> = {}
     if (!formData.email) {
       newErrors.email = 'Email requis'
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
