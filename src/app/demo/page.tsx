@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 export default function DemoPage() {
-  const [activeDemo, setActiveDemo] = useState('dashboard')
+  const [activeDemo, setActiveDemo] = useState<keyof typeof demos>('dashboard')
 
   const demos = {
     dashboard: {
@@ -31,7 +31,7 @@ export default function DemoPage() {
       image: '📈',
       features: ['Rapports détaillés', 'Métriques personnalisées', 'Export de données']
     }
-  }
+  } as const
 
   return (
     <div className="min-h-screen bg-gray-100 lg:ml-64">
