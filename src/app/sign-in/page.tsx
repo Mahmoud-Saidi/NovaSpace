@@ -182,8 +182,8 @@ export default function AuthPage() {
           </h1>
           <p className="text-gray-600 mt-2">
             {activeTab === 'signin' 
-              ? 'Accédez à votre espace CollabSpace' 
-              : 'Rejoignez CollabSpace dès aujourd\'hui'
+              ? 'Accédez à votre espace SAIDIDSpace' 
+              : 'Rejoignez SAIDIDSpace dès aujourd\'hui'
             }
           </p>
         </div>

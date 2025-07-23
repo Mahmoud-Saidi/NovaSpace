@@ -10,7 +10,7 @@ export default function DocsPage() {
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">Documentation</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Guides, tutoriels et références pour utiliser CollabSpace
+              Guides, tutoriels et références pour utiliser SAIDIDSpace
             </p>
           </div>
         </header>

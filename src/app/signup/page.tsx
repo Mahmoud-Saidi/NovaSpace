@@ -9,7 +9,7 @@ export default function SignupPage() {
             Créer un compte
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Rejoignez CollabSpace dès aujourd'hui
+            Rejoignez SAIDIDSpace dès aujourd'hui
           </p>
         </div>
         

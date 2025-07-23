@@ -1,8 +1,8 @@
-# 🚀 CollabSpace - Modern Project Management Platform
+# SAIDIDSpace - Plateforme de Collaboration Moderne
 
 Une plateforme moderne de gestion de projets collaboratifs construite avec Next.js 14, shadcn/ui, et Docker.
 
-![CollabSpace](https://via.placeholder.com/800x400/0066CC/FFFFFF?text=CollabSpace)
+![SAIDIDSpace](https://via.placeholder.com/800x400/0066CC/FFFFFF?text=SAIDIDSpace)
 
 ## ✨ Fonctionnalités
 
@@ -64,7 +64,7 @@ Une plateforme moderne de gestion de projets collaboratifs construite avec Next.
 1. **Cloner le projet**
 ```bash
 git clone <your-repo-url>
-cd collabspace
+cd saididspace
 ```
 
 2. **Configuration de l'environnement**
@@ -120,7 +120,7 @@ npm run start:3999   # Script avec vérification du port
 ## 📁 Structure du projet
 
 ```
-collabspace/
+saididspace/
 ├── src/                      # Code source
 │   ├── app/                  # App Router (Next.js 14)
 │   │   ├── (auth)/          # Routes d'authentification
@@ -222,10 +222,10 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
 ## 🆘 Support
 
-- **Documentation**: [docs.collabspace.com](https://docs.collabspace.com)
-- **Issues**: [GitHub Issues](https://github.com/your-username/collabspace/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-username/collabspace/discussions)
+- **Documentation**: [docs.saididspace.com](https://docs.saididspace.com)
+- **Issues**: [GitHub Issues](https://github.com/your-username/saididspace/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/your-username/saididspace/discussions)
 
 ---
 
-**Fait avec ❤️ par l'équipe CollabSpace**
+**Fait avec ❤️ par l'équipe SAIDIDSpace**

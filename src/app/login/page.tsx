@@ -200,7 +200,7 @@ export default function LoginPage() {
           {/* Quick Links */}
           <div className="mt-8">
             <div className="bg-white shadow rounded-lg p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Nouveau sur CollabSpace ?</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Nouveau sur SAIDIDSpace ?</h3>
               <div className="grid grid-cols-1 gap-4">
                 <Link href="/features" className="bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
                   <h4 className="font-medium text-gray-900">Voir les fonctionnalités</h4>

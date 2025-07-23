@@ -3,17 +3,10 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
-type DemoType = 'dashboard' | 'projects' | 'teams' | 'analytics'
-
 export default function DemoPage() {
-  const [activeDemo, setActiveDemo] = useState<DemoType>('dashboard')
+  const [activeDemo, setActiveDemo] = useState('dashboard')
 
-  const demos: Record<DemoType, {
-    title: string
-    description: string
-    image: string
-    features: string[]
-  }> = {
+  const demos = {
     dashboard: {
       title: 'Dashboard principal',
       description: 'Vue d\'ensemble de tous vos projets et métriques',
@@ -47,7 +40,7 @@ export default function DemoPage() {
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">Démo Interactive</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Explorez CollabSpace et découvrez comment il peut transformer votre façon de travailler
+              Explorez SAIDIDSpace et découvrez comment il peut transformer votre façon de travailler
             </p>
           </div>
         </header>
@@ -57,7 +50,7 @@ export default function DemoPage() {
           <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Choisissez une fonctionnalité à explorer</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              {(Object.entries(demos) as [DemoType, typeof demos[DemoType]][]).map(([key, demo]) => (
+              {Object.entries(demos).map(([key, demo]) => (
                 <button
                   key={key}
                   onClick={() => setActiveDemo(key)}

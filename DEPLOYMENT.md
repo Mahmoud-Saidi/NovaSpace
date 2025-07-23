@@ -1,4 +1,4 @@
-# 🚀 Guide de Déploiement Vercel - CollabSpace
+# Guide de Déploiement - SAIDIDSpace
 
 ## Prérequis
 - Compte Vercel (gratuit)

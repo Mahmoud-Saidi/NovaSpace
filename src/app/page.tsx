@@ -77,7 +77,7 @@ export default function Page() {
           <section className="grid lg:grid-cols-2 gap-12 items-center mb-16">
             <div className="space-y-8">
               <h1 className="text-5xl md:text-6xl font-extrabold leading-tight">
-                <span className="block">NovaSpace</span>
+                <span className="block">SAIDIDSpace</span>
                 <span className="block bg-gradient-to-r from-[#F596D3] to-[#61DAFB] text-transparent bg-clip-text">L'expérience web moderne</span>
                 <span className="block text-primary">pour explorer, créer et innover</span>
               </h1>

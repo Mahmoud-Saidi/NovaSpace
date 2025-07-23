@@ -21,7 +21,7 @@ export function Hero() {
         </main>
 
         <p className="text-xl text-muted-foreground md:w-10/12 mx-auto lg:mx-0">
-          CollabSpace est la plateforme moderne de gestion de projets qui booste la productivité de votre équipe avec des outils de collaboration en temps réel.
+          SAIDIDSpace est la plateforme moderne de gestion de projets qui booste la productivité de votre équipe avec des outils de collaboration en temps réel.
         </p>
 
         <div className="space-y-4 md:space-y-0 md:space-x-4 md:flex">

@@ -79,12 +79,6 @@ export default function DashboardPage() {
     return tasks
   }
   
-  // Fonction pour obtenir le nom d'une équipe par son ID
-  const getTeamNameById = (teamId: string): string => {
-    const team = teams.find((t: Team) => t.id.toString() === teamId)
-    return team ? team.name : `Équipe ${teamId}`
-  }
-  
   // Vérification de l'authentification
   useEffect(() => {
     const checkAuth = () => {
@@ -267,11 +261,11 @@ export default function DashboardPage() {
             <motion.div variants={itemVariants} className="mb-8">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                 <div>
-                  <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-                    Tableau de bord
-                  </h1>
+                        <h1 className="text-4xl font-bold mb-8">
+        Bienvenue sur SAIDIDSpace Dashboard
+      </h1>
                   <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Bienvenue sur votre espace personnel NovaSpace
+                    Bienvenue sur votre espace personnel SAIDIDSpace
                   </p>
                 </div>
                 <div className="mt-4 md:mt-0 flex space-x-3">
@@ -388,8 +382,8 @@ export default function DashboardPage() {
                                 </p>
                                 <div className="mt-2 flex items-center text-sm text-gray-500 dark:text-gray-400">
                                   <span>Progrès: {project.progress}%</span>
-                                  {project.assignedTeam && project.assignedTeam !== 'Aucune équipe' && (
-                                    <span className="ml-4">👥 {getTeamNameById(project.assignedTeam)}</span>
+                                  {project.assignedTeamName && project.assignedTeamName !== 'Aucune équipe' && (
+                                    <span className="ml-4">👥 {project.assignedTeamName}</span>
                                   )}
                                 </div>
                               </div>

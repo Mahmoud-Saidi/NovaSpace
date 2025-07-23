@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script pour démarrer l'application sur le port 3999
-echo "🚀 Démarrage de NovaSpace sur le port 3999..."
+echo "🚀 Démarrage de SAIDIDSpace sur le port 3999..."
 
 # Couleurs pour les messages
 RED='\033[0;31m'
