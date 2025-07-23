@@ -1,12 +1,13 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 export function Navbar() {
   const router = useRouter()
+  const pathname = usePathname()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [userEmail, setUserEmail] = useState('')
 
@@ -66,6 +67,11 @@ export function Navbar() {
         </div>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <nav className="flex items-center space-x-6">
+            {pathname !== '/' && (
+              <Link href="/" className="text-sm font-medium hover:text-primary transition-colors">
+                🏠 Accueil
+              </Link>
+            )}
             <Link href="/features" className="text-sm font-medium">
               Features
             </Link>

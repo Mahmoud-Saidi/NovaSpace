@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { Navbar } from '@/components/navbar'
 import { Sidebar } from '@/components/sidebar'
 import { Button } from '@/components/ui/button'
@@ -261,9 +262,16 @@ export default function DashboardPage() {
             <motion.div variants={itemVariants} className="mb-8">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                 <div>
-                        <h1 className="text-4xl font-bold mb-8">
-        Bienvenue sur SAIDIDSpace Dashboard
-      </h1>
+                  <div className="flex items-center gap-4 mb-4">
+                    <Link href="/">
+                      <Button variant="outline" size="sm">
+                        ← Retour à l'accueil
+                      </Button>
+                    </Link>
+                  </div>
+                  <h1 className="text-4xl font-bold mb-8">
+                    Bienvenue sur SAIDIDSpace Dashboard
+                  </h1>
                   <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                     Bienvenue sur votre espace personnel SAIDIDSpace
                   </p>
