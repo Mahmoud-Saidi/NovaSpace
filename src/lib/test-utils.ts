@@ -18,6 +18,7 @@ export interface TestTeam {
   description: string
   ownerId: string
   members: string[]
+  assignedUsers?: string[] // IDs des utilisateurs assignés à cette équipe
   avatar: string
   department: string
   role: string

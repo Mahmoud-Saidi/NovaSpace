@@ -29,7 +29,7 @@ export function Stats({ isAuthenticated = false }: StatsProps) {
         if (savedTeams) {
           const teams = JSON.parse(savedTeams)
           totalTeams = teams.length
-          teams.forEach(team => {
+          teams.forEach((team: { members?: string[] }) => {
             if (team.members && Array.isArray(team.members)) {
               team.members.forEach(member => activeUsers.add(member))
             }
@@ -38,8 +38,8 @@ export function Stats({ isAuthenticated = false }: StatsProps) {
         
         if (savedProjects) {
           const projects = JSON.parse(savedProjects)
-          activeProjects = projects.filter(p => p.status === 'En cours').length
-          projects.forEach(project => {
+          activeProjects = projects.filter((p: { status?: string }) => p.status === 'En cours').length
+          projects.forEach((project: { tasks?: any[] }) => {
             if (project.tasks && Array.isArray(project.tasks)) {
               totalTasks += project.tasks.length
             }

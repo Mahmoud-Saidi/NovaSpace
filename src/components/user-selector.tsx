@@ -1,10 +1,16 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import { User, searchUsers, getUsersFromDatabase } from '@/lib/users'
+import { getUsers } from '@/lib/users'
+
+type UserWithAvatar = ReturnType<typeof getUsers>[number] & {
+  avatar?: string;
+  department?: string;
+};
+
 
 interface UserSelectorProps {
-  onUserSelect: (user: User) => void
+  onUserSelect: (user: UserWithAvatar) => void
   excludeUserIds?: string[]
   placeholder?: string
   className?: string
@@ -18,24 +24,28 @@ export default function UserSelector({
 }: UserSelectorProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [filteredUsers, setFilteredUsers] = useState<User[]>([])
-  const [selectedUser, setSelectedUser] = useState<User | null>(null)
+  const [filteredUsers, setFilteredUsers] = useState<UserWithAvatar[]>([])
+  const [selectedUser, setSelectedUser] = useState<UserWithAvatar | null>(null)
 
   useEffect(() => {
     if (searchQuery.length > 0) {
-      const users = searchUsers(searchQuery).filter(user => 
-        !excludeUserIds.includes(user.id) && user.status === 'active'
-      )
+      const users = getUsers()
+        .filter(user =>
+          !excludeUserIds.includes(user.id) &&
+          user.status === 'active' &&
+          (`${user.firstName} ${user.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+           user.email.toLowerCase().includes(searchQuery.toLowerCase()))
+        )
       setFilteredUsers(users)
     } else {
-      const allUsers = getUsersFromDatabase().filter(user => 
+      const allUsers = getUsers().filter(user => 
         !excludeUserIds.includes(user.id) && user.status === 'active'
       )
       setFilteredUsers(allUsers.slice(0, 10)) // Limiter à 10 résultats
     }
   }, [searchQuery, excludeUserIds])
 
-  const handleUserSelect = (user: User) => {
+  const handleUserSelect = (user: UserWithAvatar) => {
     setSelectedUser(user)
     setSearchQuery(`${user.firstName} ${user.lastName}`)
     setIsOpen(false)
@@ -82,7 +92,7 @@ export default function UserSelector({
               className="flex items-center px-4 py-3 cursor-pointer hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
             >
               <img
-                src={user.avatar}
+                src={user.avatar || '/default-avatar.png'}
                 alt={`${user.firstName} ${user.lastName}`}
                 className="w-8 h-8 rounded-full mr-3"
               />

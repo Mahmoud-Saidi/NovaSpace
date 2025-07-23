@@ -4,7 +4,14 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { User, initializeUsersDatabase, getUsers } from '@/lib/users'
-import { TestTeam } from '@/lib/test-utils'
+import { TestUser, TestTeam, TestProject } from '@/lib/test-utils'
+
+interface SimpleUser {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+}
 import UserSelector from '@/components/user-selector'
 
 interface Team {
@@ -39,13 +46,13 @@ export default function TeamsPage() {
   })
   const [inviteEmail, setInviteEmail] = useState('')
   const [inviteRole, setInviteRole] = useState('member')
-  const [teams, setTeams] = useState([])
+  const [teams, setTeams] = useState<TestTeam[]>([])
   const [invitations] = useState([])
   const [showTeamDetailsModal, setShowTeamDetailsModal] = useState(false)
-  const [selectedTeamDetails, setSelectedTeamDetails] = useState(null)
+  const [selectedTeamDetails, setSelectedTeamDetails] = useState<TestTeam | null>(null)
   const [showAddMemberForm, setShowAddMemberForm] = useState(false)
-  const [selectedUser, setSelectedUser] = useState(null)
-  const [availableUsers, setAvailableUsers] = useState<User[]>([])
+  const [selectedUser, setSelectedUser] = useState<TestUser | null>(null)
+  const [availableUsers, setAvailableUsers] = useState<TestUser[]>([])
 
   // Charger les équipes depuis localStorage au montage du composant
   useEffect(() => {
@@ -78,11 +85,16 @@ export default function TeamsPage() {
           id: user.id,
           firstName: user.firstName,
           lastName: user.lastName,
-          email: user.email
+          email: user.email,
+          avatar: '',
+          department: '',
+          role: 'Member',
+          status: '',
+          createdAt: ''
         }))
-      
+
       console.log('Utilisateurs chargés:', users)
-      setAvailableUsers(users)
+      setAvailableUsers(users as TestUser[])
     } catch (error) {
       console.error('Erreur lors du chargement des utilisateurs:', error)
       // Fallback en cas d'erreur - aucun utilisateur disponible
@@ -163,7 +175,7 @@ export default function TeamsPage() {
       
       // Mettre à jour l'affichage avec les équipes filtrées pour cet utilisateur
       const currentUser = localStorage.getItem('userName') || ''
-      const userTeams = updatedAllTeams.filter(team => 
+      const userTeams = updatedAllTeams.filter((team: TestTeam) => 
         team.ownerId === currentUserId || 
         (team.assignedUsers && team.assignedUsers.includes(currentUserId)) ||
         (team.members && Array.isArray(team.members) && team.members.includes(currentUser))
@@ -188,12 +200,17 @@ export default function TeamsPage() {
   const handleDeleteTeam = (teamId: number) => {
     const team = teams.find(t => t.id === teamId)
     
+    if (!team) {
+      console.error('Équipe introuvable')
+      return
+    }
+    
     // Compter les projets assignés à cette équipe
     const savedProjects = localStorage.getItem('userProjects')
     let assignedProjectsCount = 0
     if (savedProjects) {
       const projects = JSON.parse(savedProjects)
-      assignedProjectsCount = projects.filter(project => 
+      assignedProjectsCount = projects.filter((project: TestProject) => 
         project.assignedTeam === teamId.toString()
       ).length
     }
@@ -202,18 +219,18 @@ export default function TeamsPage() {
       ? `Êtes-vous sûr de vouloir supprimer l'équipe "${team.name}" ?\n\nCette action supprimera automatiquement ${assignedProjectsCount} projet(s) assigné(s) à cette équipe.`
       : `Êtes-vous sûr de vouloir supprimer l'équipe "${team.name}" ?`
     
-    if (team && window.confirm(confirmMessage)) {
+    if (window.confirm(confirmMessage)) {
       // Charger toutes les équipes
       const savedTeams = localStorage.getItem('userTeams')
       const allTeams = savedTeams ? JSON.parse(savedTeams) : []
       
       // Supprimer l'équipe de toutes les équipes
-      const updatedAllTeams = allTeams.filter(t => t.id !== teamId)
+      const updatedAllTeams = allTeams.filter((t: TestTeam) => t.id !== teamId)
       localStorage.setItem('userTeams', JSON.stringify(updatedAllTeams))
       
       // Mettre à jour l'affichage avec les équipes filtrées pour cet utilisateur
       const currentUser = localStorage.getItem('userName') || ''
-      const userTeams = updatedAllTeams.filter(team => 
+      const userTeams = updatedAllTeams.filter((team: TestTeam) => 
         team.ownerId === currentUserId || 
         (team.assignedUsers && team.assignedUsers.includes(currentUserId)) ||
         (team.members && Array.isArray(team.members) && team.members.includes(currentUser))
@@ -235,7 +252,7 @@ export default function TeamsPage() {
     const savedProjects = localStorage.getItem('userProjects')
     if (savedProjects) {
       const projects = JSON.parse(savedProjects)
-      const updatedProjects = projects.filter(project => 
+      const updatedProjects = projects.filter((project: TestProject) => 
         project.assignedTeam !== deletedTeamId.toString()
       )
       localStorage.setItem('userProjects', JSON.stringify(updatedProjects))
@@ -263,7 +280,7 @@ export default function TeamsPage() {
         const allTeams = savedTeams ? JSON.parse(savedTeams) : []
         
         // Mettre à jour l'équipe dans toutes les équipes
-        const updatedAllTeams = allTeams.map(team => 
+        const updatedAllTeams = allTeams.map((team: TestTeam) => 
           team.id === selectedTeamDetails.id 
             ? { ...team, members: updatedTeamDetails.members }
             : team
@@ -272,7 +289,7 @@ export default function TeamsPage() {
         
         // Mettre à jour l'affichage avec les équipes filtrées pour cet utilisateur
         const currentUser = localStorage.getItem('userName') || ''
-        const userTeams = updatedAllTeams.filter(team => 
+        const userTeams = updatedAllTeams.filter((team: TestTeam) => 
           team.ownerId === currentUserId || 
           (team.assignedUsers && team.assignedUsers.includes(currentUserId)) ||
           (team.members && Array.isArray(team.members) && team.members.includes(currentUser))
@@ -302,7 +319,7 @@ export default function TeamsPage() {
       const allTeams = savedTeams ? JSON.parse(savedTeams) : []
       
       // Mettre à jour l'équipe dans toutes les équipes
-      const updatedAllTeams = allTeams.map(team => 
+      const updatedAllTeams = allTeams.map((team: TestTeam) => 
         team.id === selectedTeamDetails.id 
           ? { ...team, members: updatedTeamDetails.members }
           : team
@@ -311,7 +328,7 @@ export default function TeamsPage() {
       
       // Mettre à jour l'affichage avec les équipes filtrées pour cet utilisateur
       const currentUser = localStorage.getItem('userName') || ''
-      const userTeams = updatedAllTeams.filter(team => 
+      const userTeams = updatedAllTeams.filter((team: TestTeam) => 
         team.ownerId === currentUserId || 
         (team.assignedUsers && team.assignedUsers.includes(currentUserId)) ||
         (team.members && Array.isArray(team.members) && team.members.includes(currentUser))

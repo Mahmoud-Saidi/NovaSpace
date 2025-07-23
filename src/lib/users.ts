@@ -6,10 +6,10 @@ interface User {
   lastName: string
   email: string
   password: string
-  role: 'Admin' | 'Member' | 'Viewer'
+  role: 'Admin' | 'Manager' | 'Member'
   status: 'active' | 'inactive'
-  createdAt: string
-  updatedAt: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 interface CreateUserData {
@@ -17,7 +17,7 @@ interface CreateUserData {
   lastName: string
   email: string
   password: string
-  role: 'Admin' | 'Member' | 'Viewer'
+  role: 'Admin' | 'Manager' | 'Member'
   status: 'active' | 'inactive'
   avatar?: string
   department?: string
@@ -78,8 +78,8 @@ export async function createUser(userData: CreateUserData): Promise<User> {
     password: userData.password, // En production, il faut hasher le mot de passe
     role: userData.role,
     status: userData.status,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
+    createdAt: new Date(),
+    updatedAt: new Date()
   }
 
   // Ajouter l'utilisateur à la liste
@@ -123,7 +123,7 @@ export function updateUser(id: string, updates: Partial<Omit<User, 'id' | 'creat
   users[userIndex] = {
     ...users[userIndex],
     ...updates,
-    updatedAt: new Date().toISOString()
+    updatedAt: new Date()
   }
 
   saveUsers(users)
@@ -162,8 +162,8 @@ export function initializeUsersDatabase(): void {
         password: 'admin123',
         role: 'Admin',
         status: 'active',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'user-001',
@@ -173,8 +173,8 @@ export function initializeUsersDatabase(): void {
         password: 'password123',
         role: 'Member',
         status: 'active',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'user-002',
@@ -184,8 +184,8 @@ export function initializeUsersDatabase(): void {
         password: 'password123',
         role: 'Member',
         status: 'active',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ]
 

@@ -163,7 +163,20 @@ npx prisma db push
 ### Erreur de build
 ```bash
 # Localement, tester :
+## Installation des dépendances
+
+> **Note** : Vercel recommande Node.js 18.x pour Next.js 14. Assurez-vous d'utiliser la bonne version localement :
+
+```bash
+nvm use 18 # ou
+nvm install 18 && nvm use 18
+```
+
+Ensuite, installez les dépendances :
+
+```bash
 npm install
+```
 npm run build
 ```
 
