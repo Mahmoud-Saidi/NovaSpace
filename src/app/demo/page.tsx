@@ -58,7 +58,7 @@ export default function DemoPage() {
               {Object.entries(demos).map(([key, demo]) => (
                 <button
                   key={key}
-                  onClick={() => setActiveDemo(key)}
+                  onClick={() => setActiveDemo(key as keyof typeof demos)}
                   className={`p-4 rounded-lg border-2 transition-all ${
                     activeDemo === key
                       ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
