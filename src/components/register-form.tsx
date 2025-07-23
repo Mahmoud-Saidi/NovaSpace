@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Alert } from '@/components/ui/alert'
 import { registerSchema, type RegisterFormData } from '@/types/auth'
 import { useAuthStore } from '@/stores/auth-store'
 import { createUser } from '@/lib/users'
@@ -71,11 +71,10 @@ export function RegisterForm() {
   if (success) {
     return (
       <div className="space-y-4">
-        <Alert className="border-green-200 bg-green-50 text-green-800">
-          <AlertDescription>
-            Inscription réussie ! Vous allez être redirigé vers votre dashboard.
-          </AlertDescription>
-        </Alert>
+        <Alert 
+          variant="success"
+          description="Inscription réussie ! Vous allez être redirigé vers votre dashboard."
+        />
       </div>
     )
   }
@@ -83,9 +82,10 @@ export function RegisterForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {error && (
-        <Alert className="border-red-200 bg-red-50 text-red-800">
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
+        <Alert 
+          variant="destructive"
+          description={error}
+        />
       )}
 
       <div className="grid grid-cols-2 gap-4">

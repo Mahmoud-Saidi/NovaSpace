@@ -390,8 +390,8 @@ export default function DashboardPage() {
                                 </p>
                                 <div className="mt-2 flex items-center text-sm text-gray-500 dark:text-gray-400">
                                   <span>Progrès: {project.progress}%</span>
-                                  {project.assignedTeamName && project.assignedTeamName !== 'Aucune équipe' && (
-                                    <span className="ml-4">👥 {project.assignedTeamName}</span>
+                                  {project.assignedTeam && project.assignedTeam !== 'Aucune équipe' && (
+                                    <span className="ml-4">👥 {project.assignedTeam}</span>
                                   )}
                                 </div>
                               </div>
