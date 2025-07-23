@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { TestTeam } from '@/lib/test-utils'
 
 interface Project {
   id: number
@@ -77,9 +78,8 @@ export default function ProjectsPage() {
           const allTeams = JSON.parse(savedTeams)
           // Filtrer les équipes: celles créées par l'utilisateur, où l'utilisateur est assigné, ou où l'utilisateur est membre
           const currentUser = localStorage.getItem('userName') || ''
-          const userTeams = allTeams.filter(team => 
+          const userTeams = allTeams.filter((team: TestTeam) => 
             team.ownerId === currentUserId || 
-            (team.assignedUsers && team.assignedUsers.includes(currentUserId)) ||
             (team.members && Array.isArray(team.members) && team.members.includes(currentUser))
           )
           console.log('Équipes trouvées pour l\'utilisateur:', userTeams)
@@ -331,7 +331,7 @@ export default function ProjectsPage() {
   const syncProjectsWithTeams = () => {
     const savedTeams = localStorage.getItem('userTeams')
     const currentTeams = savedTeams ? JSON.parse(savedTeams) : []
-    const teamIds = currentTeams.map(team => team.id.toString())
+    const teamIds = currentTeams.map((team: TestTeam) => team.id.toString())
     
     // Supprimer les projets dont l'équipe assignée n'existe plus
     const updatedProjects = projects.filter(project => {

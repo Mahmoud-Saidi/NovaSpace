@@ -80,10 +80,11 @@ export default function RegisterPage() {
         return
       }
 
-      const newUser = addUser({
+      const newUser = await addUser({
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
+        password: formData.password,
         avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(
           formData.firstName + "+" + formData.lastName
         )}&background=4f46e5&color=fff&size=128`,

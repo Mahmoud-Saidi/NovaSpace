@@ -19,6 +19,8 @@ interface CreateUserData {
   password: string
   role: 'Admin' | 'Member' | 'Viewer'
   status: 'active' | 'inactive'
+  avatar?: string
+  department?: string
 }
 
 // Clé pour le localStorage

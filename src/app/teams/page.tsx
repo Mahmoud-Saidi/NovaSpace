@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { User, Invitation, createInvitation, getInvitationsForUser, respondToInvitation, initializeUsersDatabase, getUsers } from '@/lib/users'
+import { User, initializeUsersDatabase, getUsers } from '@/lib/users'
+import { TestTeam } from '@/lib/test-utils'
 import UserSelector from '@/components/user-selector'
 
 interface Team {
@@ -44,7 +45,7 @@ export default function TeamsPage() {
   const [selectedTeamDetails, setSelectedTeamDetails] = useState(null)
   const [showAddMemberForm, setShowAddMemberForm] = useState(false)
   const [selectedUser, setSelectedUser] = useState(null)
-  const [availableUsers, setAvailableUsers] = useState([])
+  const [availableUsers, setAvailableUsers] = useState<User[]>([])
 
   // Charger les équipes depuis localStorage au montage du composant
   useEffect(() => {
@@ -54,9 +55,8 @@ export default function TeamsPage() {
         const allTeams = JSON.parse(savedTeams)
         // Filtrer les équipes: celles créées par l'utilisateur, où l'utilisateur est assigné, ou où l'utilisateur est membre
         const currentUser = localStorage.getItem('userName') || ''
-        const userTeams = allTeams.filter(team => 
+        const userTeams = allTeams.filter((team: TestTeam) => 
           team.ownerId === currentUserId || 
-          (team.assignedUsers && team.assignedUsers.includes(currentUserId)) ||
           (team.members && Array.isArray(team.members) && team.members.includes(currentUser))
         )
         setTeams(userTeams)
